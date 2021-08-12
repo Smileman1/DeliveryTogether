@@ -38,16 +38,6 @@ export default class EditProfilePage extends React.Component {
         }
     };
 
-    aaaaaaaaa() {
-        var query = firebase.database().ref('UsersInfo').orderByKey();
-        var dkdkdk =[1,2,3,4]
-        query.on('value', (snapshot) => {
-            const data = snapshot.val();
-            console.log("Test11" in data)
-
-        })
-    }
-
     render() {
         return (
             <View style={styles.container}>
@@ -120,7 +110,7 @@ export default class EditProfilePage extends React.Component {
                     </View>
 
                     <View>
-                        <TouchableOpacity style={styles.commandButton} onPress={this.aaaaaaaaa.bind(this)}>
+                        <TouchableOpacity style={styles.commandButton} >
                             <Text style={styles.panelButtonTitle}>수정</Text>
                         </TouchableOpacity>
 

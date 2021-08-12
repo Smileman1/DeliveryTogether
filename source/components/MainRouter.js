@@ -45,16 +45,9 @@ export default class MainRouter extends React.Component {
     checkIfLoggedIn = () => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
-                var query = firebase.database().ref('UsersInfo').orderByKey();
-                query.on('value', (snapshot) => {
-                    const data = snapshot.val();
-                    USER_INFO.name = data[user.uid].name
-                    USER_INFO.email = user.providerData[0].email;
-
-                    console.log("ddddddddd")
-                })
-                console.log("infinity")
                 USER_INFO.isLoggedIn = true;
+                USER_INFO.name = user.providerData[0].displayName;
+                USER_INFO.email = user.providerData[0].email;
                 USER_INFO.uid = user.uid;
                 USER_INFO.photoURL = user.providerData[0].photoURL;
                 USER_INFO.phoneNumber = user.providerData[0].phoneNumber;
