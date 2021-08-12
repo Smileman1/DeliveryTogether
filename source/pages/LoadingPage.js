@@ -30,6 +30,10 @@ export default class LoadingPage extends React.Component {
 
         }
     }
+
+    async abcd(){
+        console.log("dd")
+    }
 }
 
 const styles = StyleSheet.create({

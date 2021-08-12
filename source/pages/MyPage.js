@@ -4,6 +4,7 @@ import { Avatar, Title, Caption } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import firebase from 'firebase';
+import { Actions } from 'react-native-router-flux';
 import firebaseConfig from '../config/FirebaseConfig';
 import USER_INFO from '../components/UserInfo';
 
@@ -28,6 +29,10 @@ export default class MyPage extends React.Component {
     logout() {
         USER_INFO.isLoggedIn = false;
         firebase.auth().signOut();
+    }
+
+    editprofilePage() {
+        Actions.editProfilePage();
     }
 
     render() {
@@ -83,7 +88,7 @@ export default class MyPage extends React.Component {
                             <Text style={styles.menuTextStyle}>등록 게시물</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={this.editprofilePage}>
                         <View style={styles.menuItemStyle}>
                             <Icon name='ios-person-circle' size={22} color='#000' />
                             <Text style={styles.menuTextStyle}>프로필 수정</Text>

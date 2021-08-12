@@ -15,6 +15,7 @@ import CategoryPage from '../pages/CategoryPage';
 
 import LoginPage from '../pages/LoginPage';
 import MyPage from '../pages/MyPage';
+import EditProfilePage from "../pages/EditProfilePage";
 import USER_INFO from '../components/UserInfo';
 
 if (firebase.apps.length === 0) {
@@ -33,15 +34,27 @@ export default class MainRouter extends React.Component {
     }
 
     componentDidMount() {
+        setTimeout(() => { this.setState({ isLoggedIn: true }) }, 11000);
         this.checkIfLoggedIn();
+    }
+
+    abcd(){
+
     }
 
     checkIfLoggedIn = () => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
+                var query = firebase.database().ref('UsersInfo').orderByKey();
+                query.on('value', (snapshot) => {
+                    const data = snapshot.val();
+                    USER_INFO.name = data[user.uid].name
+                    USER_INFO.email = user.providerData[0].email;
+
+                    console.log("ddddddddd")
+                })
+                console.log("infinity")
                 USER_INFO.isLoggedIn = true;
-                USER_INFO.name = user.providerData[0].displayName;
-                USER_INFO.email = user.providerData[0].email;
                 USER_INFO.uid = user.uid;
                 USER_INFO.photoURL = user.providerData[0].photoURL;
                 USER_INFO.phoneNumber = user.providerData[0].phoneNumber;
@@ -117,6 +130,7 @@ export default class MainRouter extends React.Component {
 
                             <Scene key="app" hideNavBar={true} initial={this.state.isLoggedIn}>
                                 <Scene key="myPage" component={MyPage} />
+                                <Scene key="editProfilePage" component={EditProfilePage}/>
                             </Scene>
                         </Scene>
                     </Scene>

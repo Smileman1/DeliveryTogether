@@ -4,6 +4,7 @@ import * as Google from 'expo-google-app-auth';
 import firebase from 'firebase';
 
 import firebaseConfig from '../config/FirebaseConfig';
+import USER_INFO from '../components/UserInfo';
 
 /* 파이어베이스 연결 */
 if (firebase.apps.length === 0)
@@ -37,14 +38,29 @@ export default class LoginPage extends React.Component {
                 );
 
                 firebase.auth().signInWithCredential(credential).then(function (result) {
-                    firebase.database().ref('UsersInfo/' + result.user.uid).set({
-                        email: result.user.email,
-                        profileImage: result.user.photoURL,
-                        name: result.user.displayName,
-                        phoneNumber: result.user.phoneNumber,
-                        createdAt: Date.now()
 
+                    var query = firebase.database().ref('UsersInfo').orderByKey();
+                    query.on('value', (snapshot) => {
+                        const data = snapshot.val();
+                        if(! result.user.uid in data){
+                            firebase.database().ref('UsersInfo/' + result.user.uid).set({
+                                email: result.user.email,
+                                profileImage: result.user.photoURL,
+                                name: result.user.displayName,
+                                phoneNumber: result.user.phoneNumber,
+                                createdAt: Date.now()
+
+                            })
+                        }
                     })
+
+                    var query = firebase.database().ref('UsersInfo').orderByKey();
+                    query.on('value', (snapshot) => {
+                        const data = snapshot.val();
+                        USER_INFO.name = data[result.user.uid].name
+                        console.log(data[result.user.uid].name)
+                    })
+
                 }).catch(function (error) {
                     var errorCode = error.code;
                     var errorMessage = error.message;
