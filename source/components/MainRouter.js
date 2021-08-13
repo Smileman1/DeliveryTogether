@@ -34,12 +34,7 @@ export default class MainRouter extends React.Component {
     }
 
     componentDidMount() {
-        setTimeout(() => { this.setState({ isLoggedIn: true }) }, 11000);
         this.checkIfLoggedIn();
-    }
-
-    abcd(){
-
     }
 
     checkIfLoggedIn = () => {

@@ -25,6 +25,17 @@ export default class MyPage extends React.Component {
         }
     }
 
+    //이름과, 프로필 정보를 USER_INFO에서 Firebase에 있는 데이터로 업데이트 시켜주는 부분
+    componentDidMount() {
+        var query = firebase.database().ref('UsersInfo').orderByKey();
+
+        query.on('value', (snapshot) => {
+            const data = snapshot.val();
+            this.setState({ name: data[USER_INFO.uid].name });
+            this.setState({ photoUrl: data[USER_INFO.uid].profileImage });
+        })
+    }
+
     /* 로그아웃 함수 */
     logout() {
         USER_INFO.isLoggedIn = false;
@@ -43,7 +54,7 @@ export default class MyPage extends React.Component {
                 <View style={styles.userInfoStyle}>
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                         <Avatar.Image
-                            source={{ uri: this.state.url }}
+                            source={{ uri: this.state.photoUrl }}
                             size={70} />
                         <View style={{ marginLeft: 20, justifyContent: 'center' }}>
                             <Title style={[styles.nameStyle,

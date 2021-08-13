@@ -41,7 +41,7 @@ export default class LoginPage extends React.Component {
                     var query = firebase.database().ref('UsersInfo').orderByKey();
                     query.on('value', (snapshot) => {
                         const data = snapshot.val();
-                        if(! result.user.uid in data){
+                        if(!(result.user.uid in data)){
                             firebase.database().ref('UsersInfo/' + result.user.uid).set({
                                 email: result.user.email,
                                 profileImage: result.user.photoURL,

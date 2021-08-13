@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View, TouchableOpacity, ImageBackground, TextInput, Text, SafeAreaView} from 'react-native';
 
 import { Actions } from 'react-native-router-flux';
-import INFO from '../components/UserInfo';
+import USER_INFO from "../components/UserInfo";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
@@ -11,18 +11,43 @@ import * as Permissions from 'expo-permissions';
 import firebase from "firebase";
 
 
+
 export default class EditProfilePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name:INFO.name,
-            url:INFO.photoURL,
-            email:INFO.email,
-            phoneNumber:INFO.phoneNumber,
+            text: "",
+            inputText: "",
+            name:USER_INFO.name,
+            url:USER_INFO.photoURL,
+            email:USER_INFO.email,
+            phoneNumber:USER_INFO.phoneNumber,
         };
     }
 
+    //이름과, 프로필 정보를 USER_INFO에서 Firebase에 있는 데이터로 업데이트 시켜주는 부분
+    componentDidMount() {
+        var query = firebase.database().ref('UsersInfo').orderByKey();
+
+        query.on('value', (snapshot) => {
+            const data = snapshot.val();
+            this.setState({ name: data[USER_INFO.uid].name });
+            this.setState({ url: data[USER_INFO.uid].profileImage });
+        })
+    }
+
     MyPage() {
+        Actions.pop();
+    }
+
+    //프로필 수정버튼을 눌렀을 때 실행되는 함수
+    Edit_Profile(){
+        firebase.database().ref('UsersInfo/'+USER_INFO.uid).update(
+            {
+                name: this.state.inputText,
+                profileImage: this.state.url
+
+            })
         Actions.pop();
     }
 
@@ -85,32 +110,33 @@ export default class EditProfilePage extends React.Component {
                                 placeholderTextColor="#666666"
                                 autoCorrect={false}
                                 style={styles.textInput}
+                                onChangeText={(text) => {this.setState({inputText: text})}}
                             />
                         </View>
 
-                        <View style={styles.action}>
-                            <FontAwesome name="phone" size={20}/>
-                            <TextInput
-                                placeholder="  Phone"
-                                placeholderTextColor="#666666"
-                                autoCorrect={false}
-                                style={styles.textInput}
-                            />
-                        </View>
+                        {/*<View style={styles.action}>*/}
+                        {/*    <FontAwesome name="phone" size={20}/>*/}
+                        {/*    <TextInput*/}
+                        {/*        placeholder="  Phone"*/}
+                        {/*        placeholderTextColor="#666666"*/}
+                        {/*        autoCorrect={false}*/}
+                        {/*        style={styles.textInput}*/}
+                        {/*    />*/}
+                        {/*</View>*/}
 
-                        <View style={styles.action}>
-                            <FontAwesome name="envelope-o" size={20}/>
-                            <TextInput
-                                placeholder="  Email"
-                                placeholderTextColor="#666666"
-                                autoCorrect={false}
-                                style={styles.textInput}
-                            />
-                        </View>
+                        {/*<View style={styles.action}>*/}
+                        {/*    <FontAwesome name="envelope-o" size={20}/>*/}
+                        {/*    <TextInput*/}
+                        {/*        placeholder="  Email"*/}
+                        {/*        placeholderTextColor="#666666"*/}
+                        {/*        autoCorrect={false}*/}
+                        {/*        style={styles.textInput}*/}
+                        {/*    />*/}
+                        {/*</View>*/}
                     </View>
 
                     <View>
-                        <TouchableOpacity style={styles.commandButton} >
+                        <TouchableOpacity style={styles.commandButton} onPress={this.Edit_Profile.bind(this)}>
                             <Text style={styles.panelButtonTitle}>수정</Text>
                         </TouchableOpacity>
 
