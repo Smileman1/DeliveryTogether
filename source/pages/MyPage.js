@@ -46,6 +46,10 @@ export default class MyPage extends React.Component {
         Actions.editProfilePage();
     }
 
+    matchingListPage() {
+        Actions.matchingListPage();
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -93,7 +97,7 @@ export default class MyPage extends React.Component {
                             <Text style={styles.menuTextStyle}>채팅 목록</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={this.matchingListPage}>
                         <View style={styles.menuItemStyle}>
                             <Icon name='ios-document' size={22} color='#000' />
                             <Text style={styles.menuTextStyle}>등록 게시물</Text>
