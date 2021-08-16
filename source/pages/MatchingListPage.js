@@ -10,6 +10,7 @@ import firebase from 'firebase';
 import firebaseConfig from '../config/FirebaseConfig';
 
 import { Actions } from 'react-native-router-flux';
+import USER_INFO from "../components/UserInfo";
 
 
 if (firebase.apps.length === 0) {
@@ -20,12 +21,21 @@ export default class MatchingListPage extends React.Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
-            chat : [["일번","이번","삼번","사번"],["일번","이번","삼번","사번"]]
+            chat : [[]]
         }
     }
 
+    componentDidMount() {
+        var query = firebase.database().ref('UsersInfo/'+USER_INFO.uid+'/UserMachingInfo').orderByKey();
+        query.on('value', (snapshot) => {
+            const data = snapshot.val();
+            this.state.chat.pop()
+            for (var x in data){
+                this.state.chat.push([data[x].title,data[x].category,data[x].star,x])
+            }
+        })
+    }
 
     render() {
         return (
@@ -67,7 +77,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     topBar:{
-        backgroundColor:'gray',
+        backgroundColor:'#FF6347',
         height: 60,
         flexDirection: 'row',
     },
@@ -84,13 +94,14 @@ const styles = StyleSheet.create({
     bbb:{
         flex: 2,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     ccc:{
         flexDirection: 'row',
         flex: 1
     },
     text2:{
-      fontSize: 40,
+        fontSize: 40,
+        color: 'white',
     }
 });
