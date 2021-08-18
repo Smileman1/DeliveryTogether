@@ -55,7 +55,7 @@ export default class MapPage extends React.Component {
                             }}
                             onPress={() => this.infoPage(marker.title, marker.email, marker.category, marker.money, marker.content)}>
                             <Image
-                                source={require('../Images/Marker.png')}
+                                source={require('../Images/Chicken.png')}
                                 style={{ width: 35, height: 35 }} />
                         </Marker>
                     ))
