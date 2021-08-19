@@ -58,6 +58,7 @@ export default class MapPage extends React.Component {
                                 source={require('../Images/Chicken.png')}
                                 style={{ width: 35, height: 35 }} />
                         </Marker>
+                        
                     ))
                 }
             </MapView>
