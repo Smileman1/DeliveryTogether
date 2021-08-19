@@ -54,11 +54,57 @@ export default class MapPage extends React.Component {
                                 longitude: marker.longitude
                             }}
                             onPress={() => this.infoPage(marker.title, marker.email, marker.category, marker.money, marker.content)}>
-                            <Image
-                                source={require('../Images/Chicken.png')}
-                                style={{ width: 35, height: 35 }} />
+                            {marker.category === "한식" ?
+                                <Image
+                                    source={require('../Images/Chicken.png')}
+                                    style={{ width: 35, height: 35 }} /> : marker.category ==="분식" ?
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} /> : marker.category ==="카페, 디저트" ?
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} /> : marker.category ==="돈까스, 회, 일식" ?
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} /> : marker.category ==="치킨" ?
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} /> : marker.category ==="피자" ?
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} /> : marker.category ==="양식" ?
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} /> : marker.category ==="중식" ?
+
+                                <Image
+                                     source={require('../Images/SchoolFood.png')}
+                                     style={{width: 35, height: 35}} /> : marker.category ==="족발, 보쌈" ?
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} /> : marker.category ==="야식" ?
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} /> : marker.category ==="찜, 탕" ?
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} />:
+
+                                <Image
+                                    source={require('../Images/SchoolFood.png')}
+                                    style={{width: 35, height: 35}} />
+                            }
                         </Marker>
-                        
+
                     ))
                 }
             </MapView>
