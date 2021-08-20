@@ -17,22 +17,24 @@ if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
 }
 
+//게시판 리스트 부분 FlatList를 사용하였다. FlateList에 관한 정보는 source/components/CompletedMatchingItem.js에 저장되어있다.
 export default class MatchingListPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            chat : [[]]
+            write : [[]]
         }
     }
 
+    //페이지를 시작할 때 firebase에 있는 UserMaching 부분에서 정보를 받아와 state에 저장시킨다.
     componentDidMount() {
         var query = firebase.database().ref('UsersInfo/'+USER_INFO.uid+'/UserMachingInfo').orderByKey();
         query.on('value', (snapshot) => {
             const data = snapshot.val();
-            this.state.chat.pop()
+            this.state.write.pop()
             for (var x in data){
-                this.state.chat.push([data[x].title,data[x].category,data[x].star,x])
+                this.state.write.push([data[x].title,data[x].category,data[x].star,x])
             }
         })
     }
@@ -63,7 +65,7 @@ export default class MatchingListPage extends React.Component {
                     </SafeAreaView>
                 <FlatList
                     keyExtractor={item => item.toString()}
-                    data={this.state.chat}
+                    data={this.state.write}
                     renderItem={({item}) => <Item data={item}/>}
                 />
             </SafeAreaView>

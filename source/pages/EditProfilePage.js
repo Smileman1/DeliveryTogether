@@ -11,7 +11,7 @@ import * as Permissions from 'expo-permissions';
 import firebase from "firebase";
 
 
-
+// 사용자 프로필을 수정하는 페이지
 export default class EditProfilePage extends React.Component {
     constructor(props) {
         super(props);
@@ -36,11 +36,12 @@ export default class EditProfilePage extends React.Component {
         })
     }
 
+    //Actions를 이용해 MyPage로 돌아가는 부분
     MyPage() {
         Actions.pop();
     }
 
-    //프로필 수정버튼을 눌렀을 때 실행되는 함수
+    //프로필 수정버튼을 눌렀을 때 실행되는 함수 파이어 베이스에 저장된 유저정보가 바뀐다.
     Edit_Profile(){
         firebase.database().ref('UsersInfo/'+USER_INFO.uid).update(
             {
@@ -50,7 +51,7 @@ export default class EditProfilePage extends React.Component {
             })
         Actions.pop();
     }
-
+    //사용자가 프로필사진을 누르면 실행되는 함수, 사용자의 갤러리에 접근하여 사진을 받아온다.
     _pickImage = async () => {
         const {status_roll} = await Permissions.askAsync(Permissions.CAMERA_ROLL);
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -114,6 +115,7 @@ export default class EditProfilePage extends React.Component {
                             />
                         </View>
 
+                        {/*추가적으로 바꿀 내용이 생길수도 있을 가능성을 염두하여 남겨두었다.*/}
                         {/*<View style={styles.action}>*/}
                         {/*    <FontAwesome name="phone" size={20}/>*/}
                         {/*    <TextInput*/}

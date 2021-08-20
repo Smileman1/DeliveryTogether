@@ -53,10 +53,12 @@ export default class MapPage extends React.Component {
                                 latitude: marker.latitude,
                                 longitude: marker.longitude
                             }}
+
+                            // 저장된 카테고리에 따라 이미지를 다르게 표시하는 부분 삼항연산자를 사용했다.
                             onPress={() => this.infoPage(marker.title, marker.email, marker.category, marker.money, marker.content)}>
                             {marker.category === "한식" ?
                                 <Image
-                                    source={require('../Images/Chicken.png')}
+                                    source={require('../Images/KoreanFood.png')}
                                     style={{ width: 35, height: 35 }} /> : marker.category ==="분식" ?
 
                                 <Image
@@ -64,43 +66,43 @@ export default class MapPage extends React.Component {
                                     style={{width: 35, height: 35}} /> : marker.category ==="카페, 디저트" ?
 
                                 <Image
-                                    source={require('../Images/SchoolFood.png')}
+                                    source={require('../Images/Cafe.png')}
                                     style={{width: 35, height: 35}} /> : marker.category ==="돈까스, 회, 일식" ?
 
                                 <Image
-                                    source={require('../Images/SchoolFood.png')}
+                                    source={require('../Images/PorkCutlet.png')}
                                     style={{width: 35, height: 35}} /> : marker.category ==="치킨" ?
 
                                 <Image
-                                    source={require('../Images/SchoolFood.png')}
+                                    source={require('../Images/Chicken.png')}
                                     style={{width: 35, height: 35}} /> : marker.category ==="피자" ?
 
                                 <Image
-                                    source={require('../Images/SchoolFood.png')}
+                                    source={require('../Images/Pizza.png')}
                                     style={{width: 35, height: 35}} /> : marker.category ==="양식" ?
 
                                 <Image
-                                    source={require('../Images/SchoolFood.png')}
+                                    source={require('../Images/Steak.png')}
                                     style={{width: 35, height: 35}} /> : marker.category ==="중식" ?
 
                                 <Image
-                                     source={require('../Images/SchoolFood.png')}
+                                     source={require('../Images/ChineseFood.png')}
                                      style={{width: 35, height: 35}} /> : marker.category ==="족발, 보쌈" ?
 
                                 <Image
-                                    source={require('../Images/SchoolFood.png')}
+                                    source={require('../Images/PigHocks.png')}
                                     style={{width: 35, height: 35}} /> : marker.category ==="야식" ?
 
                                 <Image
-                                    source={require('../Images/SchoolFood.png')}
+                                    source={require('../Images/NightFood.png')}
                                     style={{width: 35, height: 35}} /> : marker.category ==="찜, 탕" ?
 
                                 <Image
-                                    source={require('../Images/SchoolFood.png')}
+                                    source={require('../Images/SteamedFood.png')}
                                     style={{width: 35, height: 35}} />:
 
                                 <Image
-                                    source={require('../Images/SchoolFood.png')}
+                                    source={require('../Images/FastFood.png')}
                                     style={{width: 35, height: 35}} />
                             }
                         </Marker>
