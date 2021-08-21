@@ -71,7 +71,6 @@ export default class LoginPage extends React.Component {
                 iosClientId: '318412209859-1hj5130mgi795laor42ufl6lbko58ufk.apps.googleusercontent.com',
                 scopes: ['profile', 'email'],
             });
-
             if (result.type === 'success') {
                 this.onSignIn(result);
                 return result.accessToken;
