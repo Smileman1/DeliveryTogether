@@ -71,7 +71,8 @@ export default class MatchingPage extends React.Component {
                 category: this.state.category,
                 money: this.state.money,
                 content: this.state.content,
-                email: USER_INFO.email
+                email: USER_INFO.email,
+                uid: uid
             }
         )
 
@@ -105,10 +106,10 @@ export default class MatchingPage extends React.Component {
                 <DissmissKeyboard>
                     <View style={{ flex: 9, justifyContent: 'center' }}>
                         <TextInput style={styles.inputStyle}
-                            placeholder='제목'
-                            selectionColor='#6E6E6E'
-                            onChangeText={value => this.setTitle(value)}
-                            value={this.state.title} />
+                                   placeholder='제목'
+                                   selectionColor='#6E6E6E'
+                                   onChangeText={value => this.setTitle(value)}
+                                   value={this.state.title} />
                         <TouchableOpacity style={styles.inputStyle} onPress={this.categoryPage}>
                             <View style={{ flex: 1 }}>
                                 <Text style={styles.textStyle}>{this.state.category}</Text>
@@ -118,17 +119,17 @@ export default class MatchingPage extends React.Component {
                             </View>
                         </TouchableOpacity>
                         <TextInput style={styles.inputStyle}
-                            placeholder='최대 지불가격 (원)'
-                            keyboardType='numeric'
-                            selectionColor='#6E6E6E'
-                            onChangeText={value => this.setMoney(value)}
-                            value={this.state.money} />
+                                   placeholder='최대 지불가격 (원)'
+                                   keyboardType='numeric'
+                                   selectionColor='#6E6E6E'
+                                   onChangeText={value => this.setMoney(value)}
+                                   value={this.state.money} />
                         <TextInput style={styles.contentStyle}
-                            placeholder='내용을 입력해주세요.'
-                            selectionColor='#6E6E6E'
-                            multiline={true}
-                            onChangeText={value => this.setContent(value)}
-                            value={this.state.content} />
+                                   placeholder='내용을 입력해주세요.'
+                                   selectionColor='#6E6E6E'
+                                   multiline={true}
+                                   onChangeText={value => this.setContent(value)}
+                                   value={this.state.content} />
                     </View>
                 </DissmissKeyboard>
 

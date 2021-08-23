@@ -15,8 +15,8 @@ import CategoryPage from '../pages/CategoryPage';
 
 import LoginPage from '../pages/LoginPage';
 import MyPage from '../pages/MyPage';
-import EditProfilePage from "../pages/EditProfilePage";
-import MatchingListPage from "../pages/MatchingListPage";
+import EditProfilePage from '../pages/EditProfilePage';
+import CompletedListPage from '../pages/CompletedListPage';
 import USER_INFO from '../components/UserInfo';
 
 if (firebase.apps.length === 0) {
@@ -96,34 +96,37 @@ export default class MainRouter extends React.Component {
                         tabs={true}
                         showLabel={false}
                         tabBarStyle={{ backgroundColor: '#fff' }}
-                        hideNavBar={true} >
+                        hideNavBar={true}>
 
                         {/* MapPage -> InfoPage -> ChatPage */}
                         <Scene key='mapButton' title='나의 주변' hideNavBar={true} icon={this.tabIcon}>
                             <Scene key='mapPage' component={MapPage} />
-                            <Scene key='infoPage' component={InfoPage} />
-                            <Scene key='chatPage' component={ChatPage} />
+                            <Scene key='infoPage' hideNavBar={false} back={true} tintColor='black' backTitleEnable={true} headerBackTitle='afsd' component={InfoPage} />
+                            <Scene key='chatPage' hideNavBar={false} back={true} tintColor='black' component={ChatPage} />
                         </Scene>
 
                         {/* MatchingPage -> CategoryPage */}
                         <Scene key='matchingButton' title='매칭 등록' hideNavBar={true} icon={this.tabIcon}>
                             <Scene key='matchingPage' component={MatchingPage} />
-                            <Scene key="categoryPage" component={CategoryPage} />
+                            <Scene key='categoryPage' hideNavBar={false} back={true} tintColor='black' title='카테고리 선택' component={CategoryPage} />
                         </Scene>
 
                         {/* LoginPage -> MyPage */}
-                        <Scene key='myButton' title='마이페이지' hideNavBar={true} icon={this.tabIcon} initial={true}>
-                            <Scene key="root" hideNavBar={true} initial={!this.state.isLoggedIn} >
-                                <Scene key="loginPage" component={LoginPage} />
+                        <Scene key='myButton' title='마이페이지' icon={this.tabIcon} initial={true}>
+                            <Scene key='root' hideNavBar={true} initial={!this.state.isLoggedIn} >
+                                <Scene key='loginPage' component={LoginPage} />
                             </Scene>
 
-                            <Scene key="app" hideNavBar={true} initial={this.state.isLoggedIn}>
-                                <Scene key="myPage" component={MyPage} />
-                                <Scene key="editProfilePage" component={EditProfilePage}/>
-                                <Scene key="matchingListPage" component={MatchingListPage}/>
+                            <Scene key='app' hideNavBar={true} initial={this.state.isLoggedIn}>
+                                <Scene key='myPage' component={MyPage} />
+                                <Scene key='editProfilePage' hideNavBar={false} back={true} tintColor='black' title='프로필 수정' component={EditProfilePage} />
+                                <Scene key='completedListPage' hideNavBar={false} back={true} tintColor='black' title='성사된 매칭' component={CompletedListPage} />
                             </Scene>
                         </Scene>
                     </Scene>
+
+
+
                 </Scene>
             </Router>
         )

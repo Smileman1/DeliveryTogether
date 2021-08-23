@@ -20,19 +20,25 @@ export default class MyPage extends React.Component {
         this.state = {
             name: USER_INFO.name,
             email: USER_INFO.email,
-            photoUrl: USER_INFO.photoURL,
+            photoURL: USER_INFO.photoURL,
             phoneNumber: USER_INFO.phoneNumber
         }
     }
+    abc(){
+        var query = firebase.database().ref('UsersInfo').orderByKey().startAt('DCFnXVK2yOa3rneCeOe6ZMUuewt2').endAt('DCFnXVK2yOa3rneCeOe6ZMUuewt2\uf8ff')
 
-    //이름과, 프로필 정보를 USER_INFO에서 Firebase에 있는 데이터로 업데이트 시켜주는 부분
+        query.on('value', (snapshot) => {
+            const data = snapshot.val();
+            console.log(data)
+        })
+    }
     componentDidMount() {
         var query = firebase.database().ref('UsersInfo').orderByKey();
 
         query.on('value', (snapshot) => {
             const data = snapshot.val();
             this.setState({ name: data[USER_INFO.uid].name });
-            this.setState({ photoUrl: data[USER_INFO.uid].profileImage });
+            this.setState({ photoURL: data[USER_INFO.uid].profileImage });
         })
     }
 
@@ -42,12 +48,14 @@ export default class MyPage extends React.Component {
         firebase.auth().signOut();
     }
 
-    editprofilePage() {
+    /* 프로필 수정 페이지 이동 */
+    editProfilePage() {
         Actions.editProfilePage();
     }
 
-    matchingListPage() {
-        Actions.matchingListPage();
+    /* 매칭 완료 리스트 페이지 이동 */
+    completedListPage() {
+        Actions.completedListPage();
     }
 
     render() {
@@ -58,14 +66,14 @@ export default class MyPage extends React.Component {
                 <View style={styles.userInfoStyle}>
                     <View style={{ flexDirection: 'row', marginTop: 15 }}>
                         <Avatar.Image
-                            source={{ uri: this.state.photoUrl }}
+                            source={{ uri: this.state.photoURL }}
                             size={70} />
                         <View style={{ marginLeft: 20, justifyContent: 'center' }}>
                             <Title style={[styles.nameStyle,
-                            {
-                                marginTop: 15,
-                                marginBottom: 5
-                            }]}>{this.state.name}</Title>
+                                {
+                                    marginTop: 15,
+                                    marginBottom: 5
+                                }]}>{this.state.name}</Title>
                             <Caption style={styles.emailStyle}>{this.state.email}</Caption>
                         </View>
                     </View>
@@ -80,10 +88,10 @@ export default class MyPage extends React.Component {
                         <Title>0.0 / 5</Title>
                         <Caption>매너 점수</Caption>
                     </View>
-                    <View style={styles.boxStyle}>
+                    <TouchableOpacity style={styles.boxStyle} onPress={this.completedListPage}>
                         <Title>0</Title>
-                        <Caption>성사된 거래</Caption>
-                    </View>
+                        <Caption>성사된 매칭</Caption>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={{ flex: 0.1 }}></View>
@@ -97,13 +105,13 @@ export default class MyPage extends React.Component {
                             <Text style={styles.menuTextStyle}>채팅 목록</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.matchingListPage}>
+                    <TouchableOpacity>
                         <View style={styles.menuItemStyle}>
                             <Icon name='ios-document' size={22} color='#000' />
-                            <Text style={styles.menuTextStyle}>등록 게시물</Text>
+                            <Text style={styles.menuTextStyle}>현재 등록 게시물</Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={this.editprofilePage}>
+                    <TouchableOpacity onPress={this.editProfilePage}>
                         <View style={styles.menuItemStyle}>
                             <Icon name='ios-person-circle' size={22} color='#000' />
                             <Text style={styles.menuTextStyle}>프로필 수정</Text>

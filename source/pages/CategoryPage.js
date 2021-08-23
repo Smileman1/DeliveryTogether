@@ -1,116 +1,142 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
-import { RadioButton } from 'react-native-paper';
-import { Actions } from 'react-native-router-flux';
+import { StyleSheet, View } from 'react-native';
+import { GiftedChat, Bubble, Send } from 'react-native-gifted-chat';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import MATCHING_INFO from '../components/MatchingInfo';
+import firebaseConfig from '../config/FirebaseConfig';
+import firebase from 'firebase';
 
-const categories = [
-    {
-        label: '한식'
-    },
-    {
-        label: '분식'
-    },
-    {
-        label: '카페, 디저트'
-    },
-    {
-        label: '돈까스, 회, 일식'
-    },
-    {
-        label: '치킨'
-    },
-    {
-        label: '피자'
-    },
-    {
-        label: '양식'
-    },
-    {
-        label: '중식'
-    },
-    {
-        label: '족발, 보쌈'
-    },
-    {
-        label: '야식'
-    },
-    {
-        label: '찜, 탕'
-    },
-    {
-        label: '패스트푸드'
-    }
-]
+import USER_INFO from '../components/UserInfo';
 
-export default class CategoryPage extends React.Component {
+
+/* 파이어베이스 연결 */
+if (firebase.apps.length === 0)
+    firebase.initializeApp(firebaseConfig);
+
+export default class ChatPage extends React.Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
-            value: MATCHING_INFO.category
-        }
+            messages: [],
+            name:'',
+            photoURL:''
+        };
     }
 
-    matchingPage() {
-        MATCHING_INFO.category = this.state.value;
-        MATCHING_INFO.matchingPage.setState({ category: MATCHING_INFO.category });
-        
-        Actions.pop();
+    componentDidMount() {
+        this.loadMessages(message => {
+            this.setState(previousState => {
+                return {
+                    messages: GiftedChat.append(previousState.messages, message)
+                };
+            });
+        });
+
+        var query = firebase.database().ref('UsersInfo').orderByKey();
+
+        query.on('value', (snapshot) => {
+            const data = snapshot.val();
+            this.setState({ name: data[USER_INFO.uid].name });
+            this.setState({ photoURL: data[USER_INFO.uid].profileImage });
+        })
+    }
+
+    componentWillUnmount() {
+        if (firebase.database().ref('Messages/' + this.props.uid + USER_INFO.uid))
+            firebase.database().ref('Messages/' + this.props.uid + USER_INFO.uid).off();
+    }
+
+    /* 메시지 전송 */
+    sendMessage(message = []) {
+        let today = new Date();
+        let timestamp = today.toISOString();
+
+        firebase.database().ref('Messages/' + this.props.uid + USER_INFO.uid).push({
+            _id: message[0]._id,
+            createdAt: timestamp,
+            text: message[0].text,
+            user: message[0].user
+        })
+    }
+
+    /* 메시지 로드*/
+    loadMessages(callback) {
+        firebase.database().ref('Messages/' + this.props.uid + USER_INFO.uid).off();
+
+        const onReceive = data => {
+            const message = data.val();
+            callback({
+                _id: message._id,
+                createdAt: message.createdAt,
+                text: message.text,
+                user: message.user
+            });
+        };
+
+        firebase.database().ref('Messages/' + this.props.uid + USER_INFO.uid).orderByChild('createdAt').limitToLast(35).on('child_added', onReceive);
+    }
+
+    /* 말풍선 커스텀 */
+    renderBubble = (props) => {
+        return (
+            <Bubble  {...props}
+                     wrapperStyle={{
+                         right: {
+                             backgroundColor: '#159DF7'
+                         }
+                     }}
+                     textStyle={{
+                         right: {
+                             color: '#fff'
+                         }
+                     }} />
+        );
+    }
+
+    /* 텍스트바 커스텀 */
+    renderSend = (props) => {
+        return (
+            <Send {...props}>
+                <View>
+                    <MaterialCommunityIcons
+                        name='send-circle'
+                        style={{ marginBottom: 7, marginRight: 7 }}
+                        size={30}
+                        color='#159DF7' />
+                </View>
+            </Send>
+        );
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={{ flex: 9, justifyContent: 'center' }}>
-                    <RadioButton.Group onValueChange={value => this.setState({ value })} value={this.state.value}>
-                        {categories.map((data, index) =>
-                            <RadioButton.Item
-                                key={index}
-                                style={styles.radioStyle}
-                                label={data.label}
-                                value={data.label}
-                                color='black' />
-                        )}
-                    </RadioButton.Group>
-                </View>
-
-                <View style={{ flex: 1, alignItems: 'center' }}>
-                    <TouchableOpacity
-                        style={styles.buttonStyle}
-                        onPress={this.matchingPage.bind(this)}>
-                        <Text style={styles.buttonTextStyle}>선택 완료</Text>
-                    </TouchableOpacity>
-                </View>
-
+                <GiftedChat
+                    style={styles.container}
+                    messages={this.state.messages}
+                    showAvatarForEveryMessage={true}
+                    onSend={message => this.sendMessage(message)}
+                    user={{
+                        _id: USER_INFO.uid,
+                        name: this.state.name,
+                        avatar: this.state.photoURL
+                    }}
+                    alwaysShowSend
+                    renderBubble={this.renderBubble}
+                    renderSend={this.renderSend}
+                    placeholder='메시지를 입력해주세요.'
+                />
             </View>
 
-        );
+        )
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
         flex: 1,
-        justifyContent: 'center'
-    },
-    radioStyle: {
-        borderBottomWidth: 0.3,
-        paddingBottom: 2.5
-    },
-    buttonStyle: {
-        backgroundColor: "#000",
-        width: 350,
-        borderRadius: 25,
-        marginVertical: 5,
-        paddingVertical: 12
-    },
-    buttonTextStyle: {
-        color: "#fff",
-        fontSize: 15,
-        fontWeight: "500",
-        textAlign: "center"
+        backgroundColor: '#fff'
     }
-});
+})

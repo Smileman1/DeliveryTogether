@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Image } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
@@ -31,8 +31,8 @@ export default class MapPage extends React.Component {
     }
 
     /* InfoPage 이동 함수 */
-    infoPage(title, email, category, money, content) {
-        Actions.infoPage({ title: title, email: email, category: category, money: money, content: content });
+    infoPage(title, email, category, money, content, uid) {
+        Actions.infoPage({ postTitle: title, postEmail: email, postCategory: category, postMoney: money, postContent: content, uid: uid, title: '매칭 상대 확인' });
     }
 
     render() {
@@ -53,61 +53,20 @@ export default class MapPage extends React.Component {
                                 latitude: marker.latitude,
                                 longitude: marker.longitude
                             }}
-
-                            // 저장된 카테고리에 따라 이미지를 다르게 표시하는 부분 삼항연산자를 사용했다.
-                            onPress={() => this.infoPage(marker.title, marker.email, marker.category, marker.money, marker.content)}>
-                            {marker.category === "한식" ?
-                                <Image
-                                    source={require('../Images/KoreanFood.png')}
-                                    style={{ width: 35, height: 35 }} /> : marker.category ==="분식" ?
-
-                                <Image
-                                    source={require('../Images/SchoolFood.png')}
-                                    style={{width: 35, height: 35}} /> : marker.category ==="카페, 디저트" ?
-
-                                <Image
-                                    source={require('../Images/Cafe.png')}
-                                    style={{width: 35, height: 35}} /> : marker.category ==="돈까스, 회, 일식" ?
-
-                                <Image
-                                    source={require('../Images/PorkCutlet.png')}
-                                    style={{width: 35, height: 35}} /> : marker.category ==="치킨" ?
-
-                                <Image
-                                    source={require('../Images/Chicken.png')}
-                                    style={{width: 35, height: 35}} /> : marker.category ==="피자" ?
-
-                                <Image
-                                    source={require('../Images/Pizza.png')}
-                                    style={{width: 35, height: 35}} /> : marker.category ==="양식" ?
-
-                                <Image
-                                    source={require('../Images/Steak.png')}
-                                    style={{width: 35, height: 35}} /> : marker.category ==="중식" ?
-
-                                <Image
-                                     source={require('../Images/ChineseFood.png')}
-                                     style={{width: 35, height: 35}} /> : marker.category ==="족발, 보쌈" ?
-
-                                <Image
-                                    source={require('../Images/PigHocks.png')}
-                                    style={{width: 35, height: 35}} /> : marker.category ==="야식" ?
-
-                                <Image
-                                    source={require('../Images/NightFood.png')}
-                                    style={{width: 35, height: 35}} /> : marker.category ==="찜, 탕" ?
-
-                                <Image
-                                    source={require('../Images/SteamedFood.png')}
-                                    style={{width: 35, height: 35}} />:
-
-                                <Image
-                                    source={require('../Images/FastFood.png')}
-                                    style={{width: 35, height: 35}} />
-                            }
-                        </Marker>
-
-                    ))
+                            onPress={() => this.infoPage(marker.title, marker.email, marker.category, marker.money, marker.content, marker.uid)}>
+                            {marker.category === "한식" ? <Image source={require('../Images/한식.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "분식" ? <Image source={require('../Images/떡볶이.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "카페, 디저트" ? <Image source={require('../Images/카페.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "돈까스, 회, 일식" ? <Image source={require('../Images/초밥.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "치킨" ? <Image source={require('../Images/치킨.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "피자" ? <Image source={require('../Images/피자.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "양식" ? <Image source={require('../Images/양식.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "중식" ? <Image source={require('../Images/짜장면.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "족발, 보쌈" ? <Image source={require('../Images/족발.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "야식" ? <Image source={require('../Images/야식.png')} style={{ width: 40, height: 40 }} /> :
+                             marker.category === "찜, 탕" ? <Image source={require('../Images/탕.png')} style={{ width: 40, height: 40 }} /> :
+                             <Image source={require('../Images/패스트푸드.png')} style={{ width: 40, height: 40 }} />}
+                        </Marker>))
                 }
             </MapView>
         );
