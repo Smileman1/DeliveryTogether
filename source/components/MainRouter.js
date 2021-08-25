@@ -17,6 +17,7 @@ import LoginPage from '../pages/LoginPage';
 import MyPage from '../pages/MyPage';
 import EditProfilePage from '../pages/EditProfilePage';
 import CompletedListPage from '../pages/CompletedListPage';
+import ChatListPage from "../pages/ChatListPage";
 import USER_INFO from '../components/UserInfo';
 
 if (firebase.apps.length === 0) {
@@ -121,6 +122,8 @@ export default class MainRouter extends React.Component {
                                 <Scene key='myPage' component={MyPage} />
                                 <Scene key='editProfilePage' hideNavBar={false} back={true} tintColor='black' title='프로필 수정' component={EditProfilePage} />
                                 <Scene key='completedListPage' hideNavBar={false} back={true} tintColor='black' title='성사된 매칭' component={CompletedListPage} />
+                                <Scene key='chatListPage' hideNavBar={false} back={true} tintColor='black' title='채팅 목록' component={ChatListPage} />
+                                <Scene key='chatPage' hideNavBar={false} back={true} tintColor='black' component={ChatPage} />
                             </Scene>
                         </Scene>
                     </Scene>

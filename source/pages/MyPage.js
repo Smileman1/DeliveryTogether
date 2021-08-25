@@ -24,14 +24,7 @@ export default class MyPage extends React.Component {
             phoneNumber: USER_INFO.phoneNumber
         }
     }
-    abc(){
-        var query = firebase.database().ref('UsersInfo').orderByKey().startAt('DCFnXVK2yOa3rneCeOe6ZMUuewt2').endAt('DCFnXVK2yOa3rneCeOe6ZMUuewt2\uf8ff')
 
-        query.on('value', (snapshot) => {
-            const data = snapshot.val();
-            console.log(data)
-        })
-    }
     componentDidMount() {
         var query = firebase.database().ref('UsersInfo').orderByKey();
 
@@ -56,6 +49,10 @@ export default class MyPage extends React.Component {
     /* 매칭 완료 리스트 페이지 이동 */
     completedListPage() {
         Actions.completedListPage();
+    }
+
+    chatListPage(){
+        Actions.chatListPage();
     }
 
     render() {
@@ -99,7 +96,7 @@ export default class MyPage extends React.Component {
                 {/* 메뉴 */}
                 <View style={styles.menuStyle}>
 
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={this.chatListPage}>
                         <View style={styles.menuItemStyle}>
                             <Icon name='ios-chatbubble-ellipses' size={22} color='#000' />
                             <Text style={styles.menuTextStyle}>채팅 목록</Text>
