@@ -14,7 +14,7 @@
 - [expo-location](https://docs.expo.dev/versions/latest/sdk/location/)
 - [expo-permissions](https://docs.expo.dev/versions/v38.0.0/sdk/permissions/)
 - [StyleSheet](https://developer.mozilla.org/ko/docs/Web/API/StyleSheet)
-- [Intellij IDEA](https://www.jetbrains.com/ko-kr/idea)
+
 
 ## 🍚 프로젝트 포커스
 - andoroid, ios 두 운영체제 모두에서 작동될 수 있게 설계하였습니다.<br>
